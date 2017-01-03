@@ -1,5 +1,4 @@
 const request = require('request');
-const config = require('../../../config.js');
 
 /*
  * Call the Send API. The message data goes in the body. If successful, we'll
@@ -10,7 +9,7 @@ function callSendAPI(messageData) {
     request({
         uri: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {
-            access_token: config.FB_PAGE_TOKEN
+            access_token: process.env.FB_PAGE_TOKEN
         },
         method: 'POST',
         json: messageData

@@ -39,7 +39,7 @@ function handleApiAiResponse(sender, response) {
     } else if (responseText == '' && !isDefined(action)) {
         //api ai could not evaluate input.
         console.log('Unknown query' + response.result.resolvedQuery);
-        sendMessage.sendTextMessage(sender, "1 - I'm not sure what you want. Can you be more specific?");
+        sendMessage.sendTextMessage(sender, "I'm not sure what you want. Can you be more specific? You can also click on the menu to the left of the chat box.");
     } else if (isDefined(action)) {
         handleApiAiAction(sender, action, responseText, contexts, parameters);
     } else if (isDefined(responseData) && isDefined(responseData.facebook)) {

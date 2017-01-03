@@ -24,13 +24,16 @@ function receivedPostback(event) {
         case 'JOB_APPLY':
             sendToApiAi(senderID, "job openings");
         break;
+        case 'WEATHER':
+            sendToApiAi(senderID, "weather");
+        break;
         case 'CHAT':
         //user wants to keep chatting
             sendMessage.sendTextMessage(senderID, "Great!  I'm happy to chat.  Do you have any questions for me?");
         break;
         default:
         //unindentified payload
-            sendMessage.sendTextMessage(senderID, "2-I'm not sure what you want. Can you be more specific?");
+            sendMessage.sendTextMessage(senderID, "I'm not sure what you want. Can you be more specific?  You can also click on the menu to the left of the chat box.");
         break;
 
     }

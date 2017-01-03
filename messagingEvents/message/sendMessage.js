@@ -1,6 +1,5 @@
 const callSendAPI = require('./apiAi/callSendAPI')
 const request = require('request')
-const config = require('../../config.js')
 const isDefined = require('./isDefined')
 
 function handleMessage(message, sender) {
@@ -122,7 +121,7 @@ function sendGifMessage(recipientId) {
             attachment: {
                 type: "image",
                 payload: {
-                    url: config.SERVER_URL + "/assets/instagram_logo.gif"
+                    url: process.env.SERVER_URL + "/assets/instagram_logo.gif"
                 }
             }
         }
@@ -144,7 +143,7 @@ function sendAudioMessage(recipientId) {
             attachment: {
                 type: "audio",
                 payload: {
-                    url: config.SERVER_URL + "/assets/sample.mp3"
+                    url: process.env.SERVER_URL + "/assets/sample.mp3"
                 }
             }
         }
@@ -166,7 +165,7 @@ function sendVideoMessage(recipientId, videoName) {
             attachment: {
                 type: "video",
                 payload: {
-                    url: config.SERVER_URL + videoName
+                    url: process.env.SERVER_URL + videoName
                 }
             }
         }
@@ -188,7 +187,7 @@ function sendFileMessage(recipientId, fileName) {
             attachment: {
                 type: "file",
                 payload: {
-                    url: config.SERVER_URL + fileName
+                    url: process.env.SERVER_URL + fileName
                 }
             }
         }
@@ -359,7 +358,7 @@ function sendAccountLinking(recipientId) {
 					text: "Welcome. Please link your account.",
 					buttons: [{
 						type: "account_link",
-						url: config.SERVER_URL + "/authorize"
+						url: process.env.SERVER_URL + "/authorize"
           }]
 				}
 			}
@@ -375,7 +374,7 @@ function greetUserText(userId) {
 	request({
 		uri: 'https://graph.facebook.com/v2.7/' + userId,
 		qs: {
-			access_token: config.FB_PAGE_TOKEN
+			access_token: process.env.FB_PAGE_TOKEN
 		}
 
 	}, function (error, response, body) {
@@ -387,9 +386,11 @@ function greetUserText(userId) {
 				console.log("FB user: %s %s, %s",
 					user.first_name, user.last_name, user.gender);
 
-				sendTextMessage(userId, `Welcome ${user.first_name}!  I am a legal assistant chatbot.
+				sendTextMessage(userId, `
+        Welcome ${user.first_name}!  I am a legal assistant chatbot.
         I cannot give you legal advice, but I can take down your information and pass it on to an attorney.
-        I can also answer frequently asked questions.  What can I help you with?`);
+        I can also tell you the weather, in case you're wondering if you need to bring an umbrella for your appointment!
+        What can I help you with?`);
 			} else {
 				console.log("Cannot get data for fb user with id",
 					userId);

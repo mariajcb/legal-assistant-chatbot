@@ -5,6 +5,35 @@ const sendEmail = require('../sendEmail')
 function handleApiAiAction(sender, action, responseText, contexts, parameters) {
     console.log('HANDLE API ACTION IS FIRING');
     switch (action) {
+        case "get-current-weather":
+            if (parameters.hasOwnProperty("geo-city") && parameters["geo-city"] != '') {
+                var request = require('request');
+                request({
+                    url: 'http://api.openweathermap.org/data/2.5/weather', //URL to hit
+                    qs: {
+                        appid: process.env.WEATHER_API_KEY,
+                        q: parameters["geo-city"],
+                        units: 'imperial'
+                    }, //Query string data
+                }, function(error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                        let weather = JSON.parse(body);
+                        if (weather.hasOwnProperty("weather")) {
+                            let reply = `${responseText} ${weather["main"]["temp"]}`;
+                            sendMessage.sendTextMessage(sender, reply);
+                        } else {
+                            sendMessage.sendTextMessage(sender,
+                                `No weather forecast available for ${parameters["geo-city"]}`);
+                        }
+                    } else {
+                        console.error(response.error);
+                    }
+                });
+            } else {
+                sendMessage.sendTextMessage(sender, responseText);
+            }
+            break;
+
         case "detailed-application":
             if (isDefined(contexts[0]) && contexts[0].name == 'job_application' && contexts[0].parameters) {
                 let phone_number = (isDefined(contexts[0].parameters['phone-number']) &&
@@ -56,7 +85,6 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
             sendMessage.sendTextMessage(sender, responseText)
 
             break;
-
         case "job-inquiry":
             let replies = [{
                 "content_type": "text",

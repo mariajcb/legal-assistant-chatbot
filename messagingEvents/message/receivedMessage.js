@@ -9,7 +9,6 @@ const callSendAPI = require('./apiAi/callSendAPI')
 const sendMessage = require('./sendMessage')
 
 const apiai = require('apiai');
-const config = require('../../config.js');
 const request = require('request');
 const uuid = require('uuid');
 

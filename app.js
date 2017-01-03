@@ -1,6 +1,5 @@
 'use strict';
 
-const config = require('./config');
 const express = require('express');
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
@@ -12,33 +11,33 @@ const webhook = require('./routes/webhook')
 
 
 // Messenger API parameters
-if (!config.FB_PAGE_TOKEN) {
+if (!process.env.FB_PAGE_TOKEN) {
 	throw new Error('missing FB_PAGE_TOKEN');
 }
-if (!config.FB_VERIFY_TOKEN) {
+if (!process.env.FB_VERIFY_TOKEN) {
 	throw new Error('missing FB_VERIFY_TOKEN');
 }
-if (!config.API_AI_CLIENT_ACCESS_TOKEN) {
+if (!process.env.API_AI_CLIENT_ACCESS_TOKEN) {
 	throw new Error('missing API_AI_CLIENT_ACCESS_TOKEN');
 }
-if (!config.FB_APP_SECRET) {
+if (!process.env.FB_APP_SECRET) {
 	throw new Error('missing FB_APP_SECRET');
 }
-if (!config.SERVER_URL) { //used for ink to static files
+if (!process.env.SERVER_URL) { //used for ink to static files
 	throw new Error('missing SERVER_URL');
 }
-if (!config.SENDGRID_API_KEY) { //sending email
+if (!process.env.SENDGRID_API_KEY) { //sending email
 	throw new Error('missing SENGRID_API_KEY');
 }
-if (!config.EMAIL_FROM) { //sending email
+if (!process.env.EMAIL_FROM) { //sending email
 	throw new Error('missing EMAIL_FROM');
 }
-if (!config.EMAIL_TO) { //sending email
+if (!process.env.EMAIL_TO) { //sending email
 	throw new Error('missing EMAIL_TO');
 }
-// if (!config.WEATHER_API_KEY) { //weather api key
-// 	throw new Error('missing WEATHER_API_KEY');
-// }
+if (!process.env.WEATHER_API_KEY) { //weather api key
+	throw new Error('missing WEATHER_API_KEY');
+}
 
 
 app.set('port', (process.env.PORT || 5000))
@@ -71,7 +70,7 @@ function verifyRequestSignature(req, res, buf) {
 		var method = elements[0];
 		var signatureHash = elements[1];
 
-		var expectedHash = crypto.createHmac('sha1', config.FB_APP_SECRET)
+		var expectedHash = crypto.createHmac('sha1', process.env.FB_APP_SECRET)
 			.update(buf)
 			.digest('hex');
 
@@ -80,29 +79,6 @@ function verifyRequestSignature(req, res, buf) {
 		}
 	}
 }
-
-// function sendEmail(subject, content) {
-// 	var helper = require('sendgrid').mail;
-//
-// 	var from_email = new helper.Email(config.EMAIL_FROM);
-// 	var to_email = new helper.Email(config.EMAIL_TO);
-// 	var subject = subject;
-// 	var content = new helper.Content("text/html", content);
-// 	var mail = new helper.Mail(from_email, subject, to_email, content);
-//
-// 	var sg = require('sendgrid')(config.SENGRID_API_KEY);
-// 	var request = sg.emptyRequest({
-// 		method: 'POST',
-// 		path: '/v3/mail/send',
-// 		body: mail.toJSON()
-// 	});
-//
-// 	sg.API(request, function(error, response) {
-// 		console.log(response.statusCode)
-// 		console.log(response.body)
-// 		console.log(response.headers)
-// 	})
-// }
 
 
 // Spin up the server
