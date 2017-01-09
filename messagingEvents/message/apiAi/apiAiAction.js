@@ -3,7 +3,6 @@ const sendMessage = require('../sendMessage')
 const sendEmail = require('../sendEmail')
 
 function handleApiAiAction(sender, action, responseText, contexts, parameters) {
-    console.log('HANDLE API ACTION IS FIRING');
     switch (action) {
         case "get-current-weather":
             if (parameters.hasOwnProperty("geo-city") && parameters["geo-city"] != '') {
@@ -59,7 +58,7 @@ function handleApiAiAction(sender, action, responseText, contexts, parameters) {
                         '.<br> Phone number: ' + phone_number + '.';
 
                     sendEmail('New job application', emailContent);
-
+                    // saveToDb();
                     sendMessage.sendTypingOn(sender);
                     //ask what user wants to do next
                     setTimeout(function() {

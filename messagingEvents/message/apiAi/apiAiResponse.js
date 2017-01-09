@@ -3,7 +3,6 @@ const sendMessage = require('../sendMessage')
 const handleApiAiAction = require('./apiAiAction')
 
 function handleApiAiResponse(sender, response) {
-  console.log('HANDLE API RESPONSE IS FIRING');
     let responseText = response.result.fulfillment.speech;
     let responseData = response.result.fulfillment.data;
     let messages = response.result.fulfillment.messages;

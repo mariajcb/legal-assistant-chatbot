@@ -8,7 +8,6 @@ const uuid = require('uuid');
 const request = require('request');
 
 function sendToApiAi(sender, text) {
-  console.log('SENDTOAPIAI IS FIRING');
     sendMessage.sendTypingOn(sender);
 
     if (!apiAiService.sessionIds.has(sender)) {

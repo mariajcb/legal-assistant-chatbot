@@ -7,11 +7,6 @@ var receivedPostback = require('../messagingEvents/postback')
 var receivedMessageRead = require('../messagingEvents/messageRead')
 var receivedAuthentication = require('../messagingEvents/authentication')
 
-router.get('/test', function(req, res) {
-    console.log("made it to test route");
-    res.status(200).send("made it to test route and I feel good");
-})
-
 // for Facebook verification
 router.get('/webhook/', function(req, res) {
     console.log("request");
@@ -32,8 +27,8 @@ router.get('/webhook/', function(req, res) {
  */
 router.post('/webhook/', function(req, res) {
     var data = req.body;
-    console.log(JSON.stringify(data));
-    console.log('THIS IS REQUEST', req);
+    // console.log(JSON.stringify(data));
+
     // Make sure this is a page subscription
     if (data.object == 'page') {
         // Iterate over each entry

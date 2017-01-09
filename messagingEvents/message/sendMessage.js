@@ -368,7 +368,6 @@ function sendAccountLinking(recipientId) {
 	callSendAPI(messageData);
 }
 
-
 function greetUserText(userId) {
 	//first read user firstname
 	request({
